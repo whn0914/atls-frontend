@@ -3,9 +3,9 @@
  */
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import { getExpressName } from '../utils/ExpressTool';
 import Alert from 'react-s-alert';
 import FetchRequest from '../utils/FetchRequest';
+import { getExpressCode } from '../utils/ExpressTool';
 import TraceList from './TraceList';
 import '../css/main.css';
 import '../css/s-alert-default.css';
@@ -37,8 +37,8 @@ export default class OrderItem extends Component {
         if(this.props.expCode == null || this.props.expNo == null) {
             this.setState({ status: "", traces: null});
         } else {
-            const params = {expCode: this.props.expCode, expNo: this.props.expNo};
-            const response = FetchRequest.call("/test/shipping", params);
+            const params = {expCode: getExpressCode(this.props.expCode), expNo: this.props.expNo};
+            const response = FetchRequest.call("/express/query", params);
             response.then(
                 res => {
                     if(res.code != 1) {
@@ -81,7 +81,7 @@ export default class OrderItem extends Component {
                         <span className="price">￥{this.props.price}</span>
                     </div>
                     <div className="status">
-                        {this.props.expCode==null ? "暂无快递信息" : getExpressName(this.props.expCode)}
+                        {this.props.expCode==null ? "暂无快递信息" : this.props.expCode}
                     </div>
                 </div>
 
@@ -89,7 +89,7 @@ export default class OrderItem extends Component {
                        onRequestClose={this.handleModalCloseRequest.bind(this)}
                        style={customStyles}
                 >
-                    <TraceList expName={this.props.expCode==null ? null : getExpressName(this.props.expCode)}
+                    <TraceList expName={this.props.expCode==null ? null : this.props.expCode}
                                expNo={this.props.expNo}
                                traces={this.state.traces} />
                 </Modal>

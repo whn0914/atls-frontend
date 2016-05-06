@@ -4,55 +4,36 @@
 import React, { Component } from 'react';
 import SearchBar from '../components/SearchBar';
 import OrderList from '../components/OrderList';
-
+import FetchRequest from '../utils/FetchRequest';
+import Alert from 'react-s-alert';
+import '../css/s-alert-default.css';
 export default class SearchContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = { status: "", orders: null};
+        this.state = { status: "", orders: []};
     }
 
     searchOrders(phone) {
-        console.log(phone);
+        this.setState({ status: "loading" });
+        // fetch traces data
+        const params = {phone: phone};
+        const response = FetchRequest.call("/express/getOrders", params);
+        response.then(
+            res => {
+                if(res.code != 1) {
+                    Alert.error(res.msg, {
+                        position: 'top',
+                        timeout: 1000
+                    });
+                    this.setState({ status: "" });
+                } else {
+                    this.setState({ status: "success",  orders: res.data.list});
+                }
+            }
+        );
     }
 
     render() {
-        // TODO: tmp data
-        const orders = [
-            {
-                img: 'http://www.atlsmall.com/images/medi1.jpg',
-                title: 'Line Friends N.M.F水润面膜10片',
-                price: '148',
-                expCode: 'ZTO',
-                expNo: '778785928929'
-            },
-            {
-                img: 'http://www.atlsmall.com/images/medi2.jpg',
-                title: 'Line Friends I.P.I清澈透亮面膜10片',
-                price: '150',
-                expCode: 'ZTO',
-                expNo: '778785928927'
-            },
-            {
-                img: 'http://www.atlsmall.com/upload/images/Number%201.jpg',
-                title: '雪花秀滋盈肌本润颜水乳护肤套装',
-                price: '400',
-                extra: '申通快递',
-                expCode: 'ZTO',
-                expNo: '778785928929'
-            },
-            {
-                img: 'http://www.atlsmall.com/images/medi1.jpg',
-                title: 'Line Friends N.M.F水润面膜10片',
-                price: '148',
-                extra: '派件中'
-            },
-            {
-                img: 'http://www.atlsmall.com/images/medi2.jpg',
-                title: 'Line Friends I.P.I清澈透亮面膜10片',
-                price: '150',
-            }
-        ];
-
         return (
             <div>
                 <br/>
@@ -63,7 +44,13 @@ export default class SearchContainer extends Component {
                     <i className="tag grey icon"></i>
                     点击查看快递详情
                 </h6>
-                <OrderList orders={orders} />
+                <OrderList orders={this.state.orders} />
+                {this.state.status == "loading" &&
+                <div className="ui page active inverted dimmer">
+                    <div className="ui text loader">Loading</div>
+                </div>
+                }
+                <Alert stack={{limit: 1}} />
             </div>
         );
     }

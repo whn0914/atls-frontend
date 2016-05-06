@@ -3,7 +3,7 @@
  */
 import 'isomorphic-fetch';
 
-const API_ROOT = "http://192.168.0.33:8080";
+const API_ROOT = "http://120.76.75.227:8080";
 
 
 export default class FetchRequest {
