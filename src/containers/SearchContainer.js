@@ -37,7 +37,7 @@ export default class SearchContainer extends Component {
         return (
             <div>
                 <br/>
-                <img className="ui centered tiny circular image" src="/images/logo.jpg" />
+                <img className="ui centered tiny circular image" src="images/logo.jpg" />
                 <br/>
                 <SearchBar search={this.searchOrders.bind(this)}/>
                 <h6 className="ui horizontal divider grey header">

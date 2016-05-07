@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/whn0914/atls-frontend#readme",
   "dependencies": {
+    "babel-polyfill": "^6.8.0",
     "css-loader": "^0.23.1",
     "material-ui": "^0.14.4",
     "react": "^15.0.1",
