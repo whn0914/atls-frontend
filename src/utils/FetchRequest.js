@@ -3,7 +3,7 @@
  */
 import 'isomorphic-fetch';
 
-const API_ROOT = "http://120.76.75.227:8080";
+const API_ROOT = "http://www.atlsmall.com:8080";
 
 
 export default class FetchRequest {
@@ -26,7 +26,7 @@ export default class FetchRequest {
     }
 
     static call(endpoint, params) {
-        const fullUrl = process.env.NODE_ENV === 'production' ? `/ws${endpoint}` : API_ROOT + endpoint;
+        const fullUrl = API_ROOT + endpoint;
 
         const headers = new Headers();
         headers.append('Content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
