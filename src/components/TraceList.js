@@ -28,8 +28,10 @@ export default class TraceList extends Component {
                         <div className="description">{this.props.expNo}</div>
                     </div>
                 </div>
+                {this.props.traces!=null &&
+                    <TraceItem acceptStation="您的订单已从境外发货,分拣完成将转交给国内快递,请耐心等待" acceptTime=""/>}
                 {this.props.traces!=null && this.props.traces.map((trace, index) =>
-                    <TraceItem {...trace} key={index} />
+                    <TraceItem {...trace} key={index}/>
                 )}
             </div>
         );
